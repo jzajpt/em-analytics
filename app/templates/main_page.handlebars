@@ -1,0 +1,64 @@
+<div class="pull-right">
+  <div class="pull-right">
+    <div class="btn-group" data-toggle="buttons-radio">
+      <button class="btn" 
+        {{action "monthly" target="App.appController" on="click"}}>
+        Měsíční
+      </button>
+      <button class="btn active" 
+        {{action "daily" target="App.appController" on="click"}}>
+        Denní
+      </button>
+    </div>
+  </div>
+</div>
+<h2 class="page_title">Přehled <small>{{App.chartDataController.period}}</small></h2>
+
+<div class="btn-toolbar">
+  <div class="btn-group">
+    <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+      {{App.firstChartSeriesController.label}}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {{#collection App.DropdownView
+          selectionBinding="App.firstChartSeriesController.key"
+          contentBinding="App.firstChartSeriesController.labels"}}
+        <li><a href="#">{{content.label}}</a></li>
+      {{/collection}}
+    </ul>
+  </div>
+  <span> vs.  </span>
+  <div class="btn-group">
+    <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+      {{App.secondChartSeriesController.label}}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {{#collection App.DropdownView
+          selectionBinding="App.secondChartSeriesController.key"
+          contentBinding="App.secondChartSeriesController.labels"}}
+        {{#if content.isSeparator}}
+          <li class="divider"></li>
+        {{else}}
+          <li><a href="#">{{content.label}}</a></li>
+        {{/if}}
+      {{/collection}}
+    </ul>
+  </div>
+</div>
+
+{{view App.ChartView 
+    dateFormatBinding="App.chartDataController.dateFormat"
+    contentBinding="App.chartDataController.content"}}
+
+<div class="well sums">
+  <div class="row">
+    {{#each App.totalsController.content}}
+      <div class="span2">
+        <h6>{{label}}</h6>
+        <h2>{{sum}}</h2>
+      </div>
+    {{/each}}
+  </div>
+</div>

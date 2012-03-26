@@ -1,0 +1,12 @@
+body {
+  padding-top: 60px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.chart {
+  height: 200px;
+}
+
