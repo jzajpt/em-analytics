@@ -23,7 +23,7 @@ App.ChartSeriesController = Em.Object.extend
         labels.push key: key, label: label
       if @includeBlank
         labels.push(isSeparator: true)
-        labels.push(key: '', label: "Zrušit")
+        labels.push(key: '', label: "Cancel")
       labels
   ).property('data').cacheable()
 
