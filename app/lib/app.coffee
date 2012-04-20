@@ -11,13 +11,22 @@ App.totalsController = App.TotalsController.create()
 App.appController = Em.Object.create
   _data: null
 
+  periodOptions: [
+    { title: "Daily", value: "daily" }
+    { title: "Monthly", value: "monthly" }
+  ]
+
+  formats:
+    daily: "%d. %m. %y"
+    monthly: "%y/%m"
+
   populate: (callback) ->
     $.get '/data.js', ((data) =>
       @_data =
         monthly: new App.DataSeries(data.monthly)
         daily: new App.DataSeries(data.daily)
-      @daily()
       @_populateDidFinish()
+      @set 'period', 'daily'
     ), 'json'
 
   _populateDidFinish: ->
@@ -25,17 +34,15 @@ App.appController = Em.Object.create
     App.chartDataController.addSeriesController App.firstChartSeriesController
     App.chartDataController.addSeriesController App.secondChartSeriesController
 
-  daily: ->
-    App.chartDataController.set 'dateFormat', "%d. %m. %y"
-    @_setData @_data.daily
-
-  monthly: ->
-    App.chartDataController.set 'dateFormat', "%y/%m"
-    @_setData @_data.monthly
-
   _setData: (data) ->
     App.chartDataController.setData data
     App.totalsController.populate data
+
+  _periodDidChange: ( ->
+    period = @get 'period'
+    @_setData @_data[period]
+    App.chartDataController.set 'dateFormat', @formats[period]
+  ).observes('period')
 
 $ ->
   App.appController.populate()

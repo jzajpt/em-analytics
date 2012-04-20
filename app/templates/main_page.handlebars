@@ -1,15 +1,9 @@
 <div class="pull-right">
   <div class="pull-right">
-    <div class="btn-group" data-toggle="buttons-radio">
-      <button class="btn" 
-        {{action "monthly" target="App.appController" on="click"}}>
-        Monthly
-      </button>
-      <button class="btn active" 
-        {{action "daily" target="App.appController" on="click"}}>
-        Daily
-      </button>
-    </div>
+    {{view Bootstrap.RadioButtonGroup 
+      selectionBinding="App.appController.period"
+      contentBinding="App.appController.periodOptions" 
+      itemTitleKey="title" itemValueKey="value"}}
   </div>
 </div>
 <h2 class="page_title">Overview <small>{{App.chartDataController.period}}</small></h2>
